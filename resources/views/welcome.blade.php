@@ -70,13 +70,13 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            <form action="" id="form">
+            {{-- <form action="" id="form">
                 <input type="text" name="receptor" id="receptor" placeholder="Receptor">
                 <input type="text" name='mensaje' id="mensaje" placeholder="Mensaje">
                 <button class="btn btn-primary" type="submit" onclick="enviarMensajeWebSocket();">Enviar</button>
-            </form>
+            </form> --}}
             
-            <textarea name="text" id="text" cols="30" rows="10"></textarea>
+            {{-- <textarea name="text" id="text" cols="30" rows="10"></textarea> --}}
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth

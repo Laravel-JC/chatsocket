@@ -130,11 +130,46 @@
     
     <script>
         $( document ).ready( () => {
-            $('div#1 .chat-header-content').click(() =>{
-                $( "div#1 .card-body" ).toggle();
-                $( "div#1 .card-footer" ).toggle();
-            });
+            let chatsArea = $('#chasts');
+            let token = $('meta[name="csrf-token"]').attr('content');
+
+            // $('div .chat-header-content').click((e) =>{
+            //     let idfriend = $(e.target).data('idfriend');
+            //     $(`div#${idfriend} .card-body`).toggle();
+            //     $(`div#${idfriend} .card-footer`).toggle();
+            // });
+
+            $('.showchat').click((e) =>{
+                e.preventDefault();
+                let idfriend = $(e.target).data('idfriend');
+                //Validar que cuandoya exista este chat abierto en la vista no se consulte
+                $.ajax({
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': token},
+                    url: `/chat/show`,
+                    data: { idfriend: idfriend },
+                    dataType: "html",
+                }).done((response) => {
+                    //Validar que la respuesta si sea un html
+                    chatsArea.append(response);
+
+                }).fail((error) => {
+                    console.log(error);
+                });
+                
+            })
         });
+
+        function toggleChat(element){
+            let idfriend = $(element).parents('.card').prop('id');
+            $(`div#${idfriend} .card-body`).toggle();
+            $(`div#${idfriend} .card-footer`).toggle();
+        }
+
+        function closeChat(element){
+            let idfriend = $(element).parents('.card').prop('id');
+            $(`div#${idfriend}`).remove();
+        }
     </script>
 
 </body>

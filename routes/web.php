@@ -20,4 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/chat/show', 'ChatController@show');
 Route::post('/notificacion', 'NotificacionController@notificar');
