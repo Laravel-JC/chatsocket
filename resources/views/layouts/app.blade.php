@@ -130,6 +130,11 @@
     
     <script>
         $( document ).ready( () => {
+
+            // Echo.channel('user' +window.Laravel.user).listen('Notificaciones', (e) =>{
+            //     $('#text').append(e.mensaje);
+            // });
+
             let chatsArea = $('#chasts');
             let token = $('meta[name="csrf-token"]').attr('content');
 

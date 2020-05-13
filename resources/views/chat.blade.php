@@ -11,60 +11,26 @@
         <div class="overflow-auto">
             <div class="chat-content" style="height: 15rem;">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-10 p-0">
-                            <div class="my-1 float-left">
-                                <span class="badge badge-pill badge-primary ml-2">Hola mijo como esta todo? adsad asda sdasda asdasd</span>
+                    @foreach ($mensajes as $mensaje)
+                        @if ($mensaje->idusuario == $idfriend)
+                            <div class="row">
+                                <div class="col-md-2 p-0"></div>
+                                <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
+                                    <div class="my-1">
+                                        <span class="badge badge-pill badge-secondary mr-2">{{ $mensaje->mensaje }}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 p-0"></div>
-                        <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
-                            <div class="my-1">
-                                <span class="badge badge-pill badge-secondary mr-2">Hola mijo como esta todo? adsad asda sdasda asdasd</span>
+                        @else
+                            <div class="row">
+                                <div class="col-md-10 p-0">
+                                    <div class="my-1 float-left">
+                                        <span class="badge badge-pill badge-primary ml-2">{{ $mensaje->mensaje }}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 p-0">
-                            <div class="my-1 float-left">
-                                <span class="badge badge-pill badge-primary ml-2">Todo bien</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 p-0"></div>
-                        <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
-                            <div class="my-1">
-                                <span class="badge badge-pill badge-secondary mr-2">Excelente</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 p-0"></div>
-                        <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
-                            <div class="my-1">
-                                <span class="badge badge-pill badge-secondary mr-2">khaghfajdjasdhasda</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 p-0"></div>
-                        <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
-                            <div class="my-1">
-                                <span class="badge badge-pill badge-secondary mr-2">Hola mijo como esta todo? adsad asda sdasda asdasd</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 p-0"></div>
-                        <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
-                            <div class="my-1">
-                                <span class="badge badge-pill badge-secondary mr-2">Hola mijo como esta todo? adsad asda sdasda asdasd</span>
-                            </div>
-                        </div>
-                    </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </div>
