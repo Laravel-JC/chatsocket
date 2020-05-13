@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\amigo;
+use App\Events\SendMessaggeEvent;
 use App\Mensaje;
 use App\User;
 use Illuminate\Http\Request;
@@ -31,6 +33,29 @@ class ChatController extends Controller
             return false;
 
        }
+    }
+
+    public function sendMessage(Request $request)
+    {
+        if($request->ajax()){
+            try {
+                $iduser = Auth::user()->id;
+                $amigo = amigo::where([['idusuario', $iduser],['idamigo', $request->idfriend]])
+                ->first();
+                $mensaje = new Mensaje();
+                $mensaje->idamigo = $amigo->id;
+                $mensaje->mensaje = $request->messagge;
+                $mensaje->save();
+                event(new SendMessaggeEvent($request->messagge, $iduser, $amigo->idamigo));
+                return true;
+            
+            } catch (\Throwable $th) {
+                return false;
+            }           
+           
+        }else{
+            return false;
+        }
     }
 }
 // try {

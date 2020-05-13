@@ -39,7 +39,7 @@
         <div class="input-group">
             <input type="text" class="form-control border-0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             <div class="input-group-prepend">
-                <a href="#" class="text-decoration-none"><span class="input-group-text border-0" id="inputGroup-sizing-default">Send</span></a>
+                <a href="#" onclick="sendMessaggeFriend(this);" class="text-decoration-none"><span class="input-group-text border-0" id="inputGroup-sizing-default">Send</span></a>
             </div>
         </div>
     </div>

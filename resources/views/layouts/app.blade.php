@@ -123,20 +123,32 @@
         }
     </style>
     {{-- scripst --}}
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+
     <script
         src="https://code.jquery.com/jquery-3.5.1.slim.js"
         integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
         crossorigin="anonymous"></script>
     
     <script>
+        let token = $('meta[name="csrf-token"]').attr('content');
         $( document ).ready( () => {
 
-            // Echo.channel('user' +window.Laravel.user).listen('Notificaciones', (e) =>{
-            //     $('#text').append(e.mensaje);
-            // });
+            Echo.channel(`channel{!! auth()->check() ? auth()->user()->id : null; !!}`).listen('SendMessaggeEvent', (e) =>{
+                let chat = $(`#${e.remitente}`).find('.container');
+                if(chat){
+                    chat.append(`<div class="row">
+                                <div class="col-md-10 p-0">
+                                    <div class="my-1 float-left">
+                                        <span class="badge badge-pill badge-primary ml-2">${e.message}</span>
+                                    </div>
+                                </div>
+                            </div>`);
+                }                
+                console.log(e.message);
+            });
 
             let chatsArea = $('#chasts');
-            let token = $('meta[name="csrf-token"]').attr('content');
 
             // $('div .chat-header-content').click((e) =>{
             //     let idfriend = $(e.target).data('idfriend');
@@ -174,6 +186,38 @@
         function closeChat(element){
             let idfriend = $(element).parents('.card').prop('id');
             $(`div#${idfriend}`).remove();
+        }
+
+        function sendMessaggeFriend(element){
+            let idfriend = $(element).parents('.card').prop('id');
+            let chat = $(element).parents('.card').find('.container');
+            let messagge = $(element).parents('.input-group').find('input[type=text]').val();
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': token},
+                url: `/chat/sendMessagge`,
+                data: { 
+                        idfriend: idfriend,
+                        messagge: messagge
+                      },
+                dataType: "json",
+                beforeSend: () => {
+                    chat.append(`<div class="row">
+                                <div class="col-md-2 p-0"></div>
+                                <div class="col-md-10 p-0 d-flex flex-row-reverse bd-highlight">
+                                    <div class="my-1">
+                                        <span class="badge badge-pill badge-secondary mr-2">${messagge}</span>
+                                    </div>
+                                </div>
+                            </div>`);
+                }
+            }).done((response) => {
+                //Validar que la respuesta si sea un html
+                console.log(response);
+                //...
+            }).fail((error) => {
+                console.log(error);
+            });
         }
     </script>
 
