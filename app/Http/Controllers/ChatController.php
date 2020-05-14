@@ -8,6 +8,7 @@ use App\Mensaje;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -20,8 +21,10 @@ class ChatController extends Controller
             ->where([['amigos.idusuario', $iduser], ['amigos.idamigo', $request->idfriend]])
             ->orWhere([['amigos.idusuario', $request->idfriend], ['amigos.idamigo', $iduser]])
             ->join('amigos','mensajes.idamigo', '=', 'amigos.id')
+            ->orderBy('created_at')
             ->get();
-            // dd($mensajes);
+            
+             //dd($mensajes);
             return view('chat', [
                 'idfriend' => $request->idfriend,
                 'name' => $infoUser->name,
@@ -56,6 +59,28 @@ class ChatController extends Controller
         }else{
             return false;
         }
+    }
+    public function marcarMensajesVisto($idfriend){
+            try {
+                $iduser = Auth::user()->id;
+                //dd($idfriend,$iduser);
+                $update=DB::table('mensajes')
+                ->join('amigos', 'amigos.id', 'mensajes.idamigo')
+                ->where([['amigos.idusuario', $idfriend],['amigos.idamigo', $iduser]])
+                ->update(['mensajes.visto' => 1]);
+                //$update = DB::update('update mensajes m set m.visto = 1'); 
+                //join amigos a on m.idamigo=a.id'); 
+                //where a.idusuario = ? and a.idamigo = ?', [$idfriend,$iduser]);
+                //->where([['amigos.idusuario', $idfriend],['amigos.idamigo', $iduser]]);
+                /*$mensaje = Mensaje::where([['amigos.idusuario', $idfriend],['amigos.idamigo', $iduser]])
+                ->join('amigos', 'amigos.id', 'mensajes.idamigo')
+                ->update(['mensajes.visto' => 1],['created_at' => false]);*/
+                return true;
+            
+            } catch (\Throwable $th) {
+                return false;
+            }           
+
     }
 }
 // try {
