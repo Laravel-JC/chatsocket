@@ -29,7 +29,15 @@ class HomeController extends Controller
         $id = Auth::user()->id;
         $amigos = amigo::select('users.id','users.name')
         ->join('users', 'amigos.idamigo', '=', 'users.id')
-        ->where('amigos.idusuario', $id)->get();
+        ->where('amigos.idusuario', $id)->get()->toArray();
+        $info=[];
+        foreach ($amigos as $key => $amigo) {            
+            $amigo['mensajesNoVistos']=\App\Mensaje::select('mensajes.id')
+            ->join('amigos', 'amigos.id', 'mensajes.idamigo')
+            ->where([['mensajes.visto', 0],['amigos.idusuario',$amigo['id']],['amigos.idamigo',$id]])
+            ->count();;
+            $amigos[$key]=$amigo;
+        }
         return view('home', ['amigos' => $amigos]);
     }
 }

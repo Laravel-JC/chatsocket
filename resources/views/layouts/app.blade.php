@@ -136,13 +136,16 @@
 
             Echo.channel(`channel{!! auth()->check() ? auth()->user()->id : null; !!}`).listen('SendMessaggeEvent', (e) =>{
                 let chat = $(`#${e.remitente}`).find('.container');
-                let numNewMessage=$(`#${e.remitente}`).find('#numNewMessage');
+                let numMessageChat=$(`#numMessageChat${e.remitente}`);
+                let numMessageAmigos=$(`#numMessageAmigos${e.remitente}`);
                 if(chat){
-                    let num= numNewMessage.text();
+                    let num= numMessageAmigos.text();
                     if(num==''){
-                        numNewMessage.text('1');
+                        numMessageAmigos.text('1');
+                        numMessageChat.text('1');
                     }else{
-                        numNewMessage.text(parseInt(num)+1);
+                        numMessageAmigos.text(parseInt(num)+1);
+                        numMessageChat.text(parseInt(num)+1);
                     }
                     chat.append(`<div class="row">
                                 <div class="col-md-10 p-0">
@@ -175,6 +178,8 @@
                 }).done((response) => {
                     //Validar que la respuesta si sea un html
                     chatsArea.append(response);
+                    $(`#numMessageChat${idfriend}`).text($(`#numMessageAmigos${idfriend}`).text());
+                    
 
                 }).fail((error) => {
                     console.log(error);
@@ -200,8 +205,8 @@
                 url: `/chat/marcarMensajesVisto/${idfriend}`,
                 dataType: "json"
             }).done((response) => {
-                let numNewMessage=$(`#${idfriend}`).find('#numNewMessage');
-                numNewMessage.text('');
+                $(`#numMessageChat${idfriend}`).text('');
+                $(`#numMessageAmigos${idfriend}`).text('');
                 console.log(response);
                 //...
             })

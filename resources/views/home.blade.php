@@ -9,7 +9,7 @@
               Amigos
             </a>
             @foreach ($amigos as $amigo)
-                <a href="#" data-idfriend="{{ $amigo->id }}" class="list-group-item list-group-item-action showchat">{{ $amigo->name }} <span class="badge badge-pill badge-success">Line</span></a>
+        <a href="#" data-idfriend="{{ $amigo['id'] }}" class="list-group-item list-group-item-action showchat">{{ $amigo['name'] }}&nbsp;<span id="numMessageAmigos{{$amigo['id']}}" class="badge badge-pill badge-primary">{{$amigo['mensajesNoVistos']>0?$amigo['mensajesNoVistos']:''}}</span></a> <!--<span class="badge badge-pill badge-success">Line</span></a>-->
             @endforeach
             {{-- <a href="#" class="list-group-item list-group-item-action">Morbi leo risus <span class="badge badge-pill badge-light">Offline</span></a> --}}
         </div>

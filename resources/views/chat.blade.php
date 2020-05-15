@@ -1,7 +1,7 @@
 <div class="card" style="width: 18rem;" id="{{ $idfriend }}">
     <div class="card-header d-flex justify-content-between">
       <div class="chat-header-content" onclick="toggleChat(this);">
-        {{ $name }}&nbsp;<span id="numNewMessage" class="badge badge-pill badge-primary"></span>
+        {{ $name }}&nbsp;<span id="numMessageChat{{$idfriend}}" class="badge badge-pill badge-primary"></span>
       </div>
       <div class="close-chat">
         <a href="#" onclick="closeChat(this)"><span class="float-right">&times;</span></a>
